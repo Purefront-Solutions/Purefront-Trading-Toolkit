@@ -15,7 +15,7 @@ class _LazySystemConfig:
 
     def __getattr__(self, name: str) -> object:
         if type(self)._instance is None:
-            type(self)._instance = SystemConfigurationService('datasource_adapters').get_one('alpaca')
+            type(self)._instance = SystemConfigurationService('datasource_services').get_one('alpaca_crypto')
         return getattr(type(self)._instance, name)
 
 
@@ -30,7 +30,7 @@ _MAX_RETRIES: int = 3
 _RETRY_BASE_DELAY: float = 1.0
 
 
-class AlpacaService:
+class AlpacaCryptoService:
     def __init__(self, datasource_config: DatasourceConfiguration) -> None:
         self._datasource_config = datasource_config
 
