@@ -6,13 +6,13 @@ from lib.models.base import BaseModel
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.query import QueryConfiguration
 from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
-from lib.services.datasources.alpaca.alpaca_service import AlpacaService
+from lib.services.datasources.alpaca.alpaca_crypto_service import AlpacaCryptoService
 
 
 class AlpacaDatasourceAdapter(DatasourceAdapterInterface):
     def __init__(self, config: DatasourceConfiguration) -> None:
         self._config = config
-        self._service = AlpacaService(config)
+        self._service = AlpacaCryptoService(config)
 
     def get_model(self, query_config: QueryConfiguration) -> type[BaseModel]:
         if query_config.type == 'historical-bars':
