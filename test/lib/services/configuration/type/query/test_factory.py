@@ -1,12 +1,12 @@
 import pytest
 
 from lib.services.configuration.type.query.factory import get_query_type_class
-from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
+from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
 
 
 def test_known_type_returns_class():
-    cls = get_query_type_class('historical-bars')
-    assert cls is HistoricalBarsQueryType
+    cls = get_query_type_class('crypto_historical_bars')
+    assert cls is CryptoHistoricalBarsQueryType
 
 
 def test_unknown_type_raises():

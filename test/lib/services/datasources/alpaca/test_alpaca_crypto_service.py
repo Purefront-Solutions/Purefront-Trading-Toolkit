@@ -166,8 +166,8 @@ def _make_api_response(symbols_bars: dict, next_page_token: str | None = None) -
 
 def test_fetch_historical_bars_yields_single_page():
     service = AlpacaCryptoService(_make_config())
-    from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
-    query_config = HistoricalBarsQueryType(**_make_query_config_fields())
+    from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
+    query_config = CryptoHistoricalBarsQueryType(**_make_query_config_fields())
     api_response = _make_api_response({"BTC/USD": [_make_bar_data()]})
     with patch.object(service, "_fetch_with_retries", return_value=api_response):
         pages = list(service.fetch_historical_bars(query_config))
@@ -178,8 +178,8 @@ def test_fetch_historical_bars_yields_single_page():
 
 def test_fetch_historical_bars_follows_pagination():
     service = AlpacaCryptoService(_make_config())
-    from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
-    query_config = HistoricalBarsQueryType(**_make_query_config_fields())
+    from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
+    query_config = CryptoHistoricalBarsQueryType(**_make_query_config_fields())
     page1 = _make_api_response({"BTC/USD": [_make_bar_data()]}, next_page_token="token-abc")
     page2 = _make_api_response({"BTC/USD": [_make_bar_data()]})
     with patch.object(service, "_fetch_with_retries", side_effect=[page1, page2]):
@@ -189,8 +189,8 @@ def test_fetch_historical_bars_follows_pagination():
 
 def test_fetch_historical_bars_passes_page_token_on_subsequent_requests():
     service = AlpacaCryptoService(_make_config())
-    from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
-    query_config = HistoricalBarsQueryType(**_make_query_config_fields())
+    from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
+    query_config = CryptoHistoricalBarsQueryType(**_make_query_config_fields())
     page1 = _make_api_response({"BTC/USD": [_make_bar_data()]}, next_page_token="tok123")
     page2 = _make_api_response({"BTC/USD": []})
     with patch.object(service, "_fetch_with_retries", side_effect=[page1, page2]) as mock_fetch:
@@ -201,8 +201,8 @@ def test_fetch_historical_bars_passes_page_token_on_subsequent_requests():
 
 def test_fetch_historical_bars_maps_1d_timeframe():
     service = AlpacaCryptoService(_make_config())
-    from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
-    query_config = HistoricalBarsQueryType(**_make_query_config_fields(frequency="1d"))
+    from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
+    query_config = CryptoHistoricalBarsQueryType(**_make_query_config_fields(frequency="1d"))
     with patch.object(service, "_fetch_with_retries", return_value=_make_api_response({})) as mock_fetch:
         list(service.fetch_historical_bars(query_config))
     params = mock_fetch.call_args[0][1]
@@ -211,8 +211,8 @@ def test_fetch_historical_bars_maps_1d_timeframe():
 
 def test_fetch_historical_bars_includes_end_when_set():
     service = AlpacaCryptoService(_make_config())
-    from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
-    query_config = HistoricalBarsQueryType(**_make_query_config_fields(end="2026-05-31T00:00:00Z"))
+    from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
+    query_config = CryptoHistoricalBarsQueryType(**_make_query_config_fields(end="2026-05-31T00:00:00Z"))
     with patch.object(service, "_fetch_with_retries", return_value=_make_api_response({})) as mock_fetch:
         list(service.fetch_historical_bars(query_config))
     params = mock_fetch.call_args[0][1]
@@ -221,8 +221,8 @@ def test_fetch_historical_bars_includes_end_when_set():
 
 def test_fetch_historical_bars_omits_end_when_not_set():
     service = AlpacaCryptoService(_make_config())
-    from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
-    query_config = HistoricalBarsQueryType(**_make_query_config_fields())
+    from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
+    query_config = CryptoHistoricalBarsQueryType(**_make_query_config_fields())
     with patch.object(service, "_fetch_with_retries", return_value=_make_api_response({})) as mock_fetch:
         list(service.fetch_historical_bars(query_config))
     params = mock_fetch.call_args[0][1]

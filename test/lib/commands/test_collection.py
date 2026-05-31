@@ -41,7 +41,7 @@ def _make_datasource_args(**overrides) -> argparse.Namespace:
 
 
 def _seed_query(name: str = "my-query") -> None:
-    QueryConfigurationService().add(QueryConfiguration(name=name, type="historical-bars", symbols=["AAPL"], frequency="1d"))
+    QueryConfigurationService().add(QueryConfiguration(name=name, type="crypto_historical_bars", symbols=["AAPL"], frequency="1d"))
 
 
 def _make_collection_args(**overrides) -> argparse.Namespace:
@@ -50,7 +50,7 @@ def _make_collection_args(**overrides) -> argparse.Namespace:
         database="local",
         datasource="tesdc",
         query=None,
-        type="historical-bars",
+        type="crypto_historical_bars",
         frequency=None,
         start="2024-01-01T00:00:00",
         end=None,
@@ -71,7 +71,7 @@ def test_cmd_collection_add_creates_config(tmp_path, monkeypatch):
     c = config["collections"][0]
     assert c["name"] == "bars"
     assert c["database"] == "local"
-    assert c["type"] == "historical-bars"
+    assert c["type"] == "crypto_historical_bars"
     assert c["start"] == "2024-01-01T00:00:00+00:00"
 
 
@@ -172,7 +172,7 @@ def test_cmd_collection_list_shows_entries(tmp_path, monkeypatch, capsys):
 def test_cmd_collection_list_shows_all_required_fields(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
     cmd_collection_add(_make_collection_args(
-        name="bars", database="local", datasource="tesdc", type="historical-bars", start="2024-01-01T00:00:00"
+        name="bars", database="local", datasource="tesdc", type="crypto_historical_bars", start="2024-01-01T00:00:00"
     ))
     capsys.readouterr()
 
@@ -181,7 +181,7 @@ def test_cmd_collection_list_shows_all_required_fields(tmp_path, monkeypatch, ca
     assert "name=bars" in out
     assert "database=local" in out
     assert "datasource=tesdc" in out
-    assert "type=historical-bars" in out
+    assert "type=crypto_historical_bars" in out
     assert "start=2024-01-01T00:00:00" in out
 
 
