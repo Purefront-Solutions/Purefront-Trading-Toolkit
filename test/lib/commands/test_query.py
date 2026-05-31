@@ -7,7 +7,7 @@ import yaml
 
 from lib.commands.query import cmd_query, cmd_query_add, cmd_query_list, cmd_query_remove, cmd_query_update
 
-_SYSTEM_CONFIG = {"query_types": [{"name": "crypto_historical_bars"}]}
+_SYSTEM_CONFIG = {"query_types": [{"name": "crypto-historical-bars"}]}
 
 
 def _write_system_config(tmp_path: Path) -> None:
@@ -19,7 +19,7 @@ def _write_system_config(tmp_path: Path) -> None:
 def _make_args(**overrides) -> argparse.Namespace:
     defaults = dict(
         name="my-query",
-        type="crypto_historical_bars",
+        type="crypto-historical-bars",
         symbols=["BTC/USD"],
         frequency="1d",
         start=None,
@@ -39,7 +39,7 @@ def test_cmd_query_add_creates_config(tmp_path, monkeypatch):
     assert len(config["queries"]) == 1
     q = config["queries"][0]
     assert q["name"] == "my-query"
-    assert q["type"] == "crypto_historical_bars"
+    assert q["type"] == "crypto-historical-bars"
     assert q["symbols"] == ["BTC/USD"]
     assert q["frequency"] == "1d"
 
@@ -109,7 +109,7 @@ def test_cmd_query_list_shows_all_fields(tmp_path, monkeypatch, capsys):
     out = capsys.readouterr().out
     assert "q1" in out
     assert "q2" in out
-    assert "crypto_historical_bars" in out
+    assert "crypto-historical-bars" in out
     assert "BTC/USD" in out
 
 
@@ -173,7 +173,7 @@ def test_cmd_query_update_type_is_immutable(tmp_path, monkeypatch, capsys):
     capsys.readouterr()
     cmd_query_update(argparse.Namespace(name="my-query", symbols=["ETH/USD"], frequency=None, start=None, end=None))
     config = yaml.safe_load((tmp_path / ".config" / "user.config.yaml").read_text())
-    assert config["queries"][0]["type"] == "crypto_historical_bars"
+    assert config["queries"][0]["type"] == "crypto-historical-bars"
 
 
 def test_cmd_query_no_subcommand_prints_help():

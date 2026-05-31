@@ -8,7 +8,7 @@ from lib.services.configuration.interface.query_interface import QueryInterface
 
 @dataclass
 class CryptoHistoricalBarsQueryType(QueryInterface):
-    name: ClassVar[str] = 'crypto_historical_bars'
+    name: ClassVar[str] = 'crypto-historical-bars'
     symbols: list[str]
     frequency: str
     start: datetime | None = None

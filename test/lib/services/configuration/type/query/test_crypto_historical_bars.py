@@ -5,7 +5,7 @@ from lib.services.configuration.type.query.crypto_historical_bars import CryptoH
 
 
 def test_name_is_class_constant():
-    assert CryptoHistoricalBarsQueryType.name == 'crypto_historical_bars'
+    assert CryptoHistoricalBarsQueryType.name == 'crypto-historical-bars'
 
 
 def test_valid_construction():

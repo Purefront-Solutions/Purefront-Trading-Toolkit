@@ -15,12 +15,12 @@ class AlpacaDatasourceAdapter(DatasourceAdapterInterface):
         self._service = AlpacaCryptoService(config)
 
     def get_model(self, query_config: QueryConfiguration) -> type[BaseModel]:
-        if query_config.type == 'crypto_historical_bars':
+        if query_config.type == 'crypto-historical-bars':
             return AlpacaHistoricalBar
         raise ValueError(f"Unsupported query type: {query_config.type}")
 
     def run_query(self, query_config: QueryConfiguration) -> Generator[list[AlpacaHistoricalBar], None, None]:
-        if query_config.type == 'crypto_historical_bars':
+        if query_config.type == 'crypto-historical-bars':
             fields = {k: v for k, v in query_config.to_dict().items() if k not in ('name', 'type')}
             return self._service.fetch_historical_bars(CryptoHistoricalBarsQueryType(**fields))
         raise ValueError(f"Unsupported query type: {query_config.type}")

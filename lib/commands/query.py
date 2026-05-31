@@ -9,12 +9,10 @@ _service = QueryConfigurationService()
 
 def cmd_query_add(args: Namespace) -> None:
     try:
-        SystemConfigurationService('query_types').get_one(args.type)
+        type_class = get_query_type_class(args.type)
     except KeyError:
         print(f"Unknown query type '{args.type}'.")
         return
-
-    type_class = get_query_type_class(args.type)
 
     kwargs: dict = {}
     if args.symbols is not None:

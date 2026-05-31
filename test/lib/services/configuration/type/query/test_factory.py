@@ -5,7 +5,7 @@ from lib.services.configuration.type.query.crypto_historical_bars import CryptoH
 
 
 def test_known_type_returns_class():
-    cls = get_query_type_class('crypto_historical_bars')
+    cls = get_query_type_class('crypto-historical-bars')
     assert cls is CryptoHistoricalBarsQueryType
 
 
