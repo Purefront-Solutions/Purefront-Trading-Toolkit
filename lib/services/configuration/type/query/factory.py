@@ -1,7 +1,7 @@
-from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
+from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
 
 _REGISTRY: dict[str, type] = {
-    HistoricalBarsQueryType.name: HistoricalBarsQueryType,
+    CryptoHistoricalBarsQueryType.name: CryptoHistoricalBarsQueryType,
 }
 
 

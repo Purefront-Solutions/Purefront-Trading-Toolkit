@@ -1,5 +1,5 @@
 query_types:
-- name: historical-bars
+- name: crypto_historical_bars
 
 datasource_services:
 - name: alpaca_crypto_production

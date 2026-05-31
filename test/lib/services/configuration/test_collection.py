@@ -21,7 +21,7 @@ def _seed_collection(**overrides) -> dict:
     defaults = dict(
         name="bars",
         database="local",
-        type="historical-bars",
+        type="crypto_historical_bars",
         start="2024-01-01T00:00:00",
     )
     defaults.update(overrides)
@@ -47,12 +47,12 @@ def test_add_returns_entry(tmp_path, monkeypatch):
     entry = collection_service.add(CollectionConfiguration(
         name="bars",
         database="local",
-        type="historical-bars",
+        type="crypto_historical_bars",
         start="2024-01-01T00:00:00",
     ))
     assert entry.name == "bars"
     assert entry.database == "local"
-    assert entry.type == "historical-bars"
+    assert entry.type == "crypto_historical_bars"
     assert entry.start == datetime(2024, 1, 1, tzinfo=timezone.utc)
 
 
@@ -61,7 +61,7 @@ def test_add_omits_optional_fields_when_absent(tmp_path, monkeypatch):
     entry = collection_service.add(CollectionConfiguration(
         name="bars",
         database="local",
-        type="historical-bars",
+        type="crypto_historical_bars",
         start="2024-01-01T00:00:00",
     ))
     assert entry.frequency is None
@@ -74,7 +74,7 @@ def test_add_includes_optional_fields_when_provided(tmp_path, monkeypatch):
     entry = collection_service.add(CollectionConfiguration(
         name="bars",
         database="local",
-        type="historical-bars",
+        type="crypto_historical_bars",
         start="2024-01-01T00:00:00",
         frequency="1m",
         end="2024-06-01T00:00:00",
@@ -88,7 +88,7 @@ def test_add_includes_symbols_when_provided(tmp_path, monkeypatch):
     entry = collection_service.add(CollectionConfiguration(
         name="bars",
         database="local",
-        type="historical-bars",
+        type="crypto_historical_bars",
         start="2024-01-01T00:00:00",
         symbols=["AAPL", "MSFT"],
     ))
@@ -264,7 +264,7 @@ def test_update_raises_on_not_found(tmp_path, monkeypatch):
 
 
 def _seed_query(name: str = "my-query") -> None:
-    QueryConfigurationService().add(QueryConfiguration(name=name, type="historical-bars", symbols=["AAPL"], frequency="1d"))
+    QueryConfigurationService().add(QueryConfiguration(name=name, type="crypto_historical_bars", symbols=["AAPL"], frequency="1d"))
 
 
 def test_add_raises_query_not_found_when_invalid_query(tmp_path, monkeypatch):
@@ -273,7 +273,7 @@ def test_add_raises_query_not_found_when_invalid_query(tmp_path, monkeypatch):
         collection_service.add(CollectionConfiguration(
             name="bars",
             database="local",
-            type="historical-bars",
+            type="crypto_historical_bars",
             start="2024-01-01T00:00:00",
             query="missing-query",
         ))
@@ -285,7 +285,7 @@ def test_add_succeeds_when_query_exists(tmp_path, monkeypatch):
     entry = collection_service.add(CollectionConfiguration(
         name="bars",
         database="local",
-        type="historical-bars",
+        type="crypto_historical_bars",
         start="2024-01-01T00:00:00",
         query="my-query",
     ))

@@ -7,7 +7,7 @@ from lib.models.alpaca.historical_bar import AlpacaHistoricalBar
 from lib.services.configuration.collection import CollectionFrequency
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.system import SystemConfigurationService
-from lib.services.configuration.type.query.historical_bars import HistoricalBarsQueryType
+from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
 
 
 class _LazySystemConfig:
@@ -73,7 +73,7 @@ class AlpacaCryptoService:
         assert last_exc is not None
         raise last_exc
 
-    def fetch_historical_bars(self, query_config: HistoricalBarsQueryType) -> Generator[list[AlpacaHistoricalBar], None, None]:
+    def fetch_historical_bars(self, query_config: CryptoHistoricalBarsQueryType) -> Generator[list[AlpacaHistoricalBar], None, None]:
         params: dict = {
             "timeframe": _TIMEFRAME_MAP[CollectionFrequency(query_config.frequency)],
             "start": query_config.start.isoformat(),
