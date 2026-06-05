@@ -23,6 +23,12 @@ def cmd_query_add(args: Namespace) -> None:
         kwargs['start'] = args.start
     if args.end is not None:
         kwargs['end'] = args.end
+    if getattr(args, 'asset_class', None) is not None:
+        kwargs['asset_class'] = args.asset_class
+    if getattr(args, 'symbol', None) is not None:
+        kwargs['symbol'] = args.symbol
+    if getattr(args, 'status', None) is not None:
+        kwargs['status'] = args.status
 
     try:
         type_instance = type_class(**kwargs)
@@ -58,6 +64,12 @@ def cmd_query_update(args: Namespace) -> None:
         raw_updates['start'] = args.start
     if args.end is not None:
         raw_updates['end'] = args.end
+    if getattr(args, 'asset_class', None) is not None:
+        raw_updates['asset_class'] = args.asset_class
+    if getattr(args, 'symbol', None) is not None:
+        raw_updates['symbol'] = args.symbol
+    if getattr(args, 'status', None) is not None:
+        raw_updates['status'] = args.status
 
     if not raw_updates:
         print("No fields to update.")

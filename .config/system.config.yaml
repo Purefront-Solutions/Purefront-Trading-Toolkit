@@ -1,3 +1,6 @@
+query_types:
+- name: assets
+
 datasource_services:
 - name: alpaca_crypto_production
   fetch_url: https://data.alpaca.markets/v1beta3/crypto/us/bars
@@ -7,3 +10,9 @@ datasource_services:
   fetch_url: http://localhost:8000/alpaca/v1beta3/crypto/us/bars
   test_url: http://localhost:8000/alpaca/v1beta3/crypto/us/bars
   page_limit: 1000
+- name: alpaca_assets_production
+  fetch_url: https://paper-api.alpaca.markets/v2/assets
+  test_url: https://paper-api.alpaca.markets/v2/assets
+- name: alpaca_assets
+  fetch_url: http://localhost:8000/alpaca/v2/assets
+  test_url: http://localhost:8000/alpaca/v2/assets
