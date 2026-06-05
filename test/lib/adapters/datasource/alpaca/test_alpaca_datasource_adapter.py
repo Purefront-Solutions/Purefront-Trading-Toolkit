@@ -4,7 +4,7 @@ import pytest
 
 from lib.adapters.datasource.alpaca.alpaca_datasource_adapter import AlpacaDatasourceAdapter
 from lib.models.alpaca.asset import AlpacaAssetModel
-from lib.models.alpaca.historical_bar import AlpacaCryptoHistoricalBar
+from lib.models.alpaca.alpaca_crypto_historical_bar import AlpacaCryptoHistoricalBar
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.query import QueryConfiguration
 from lib.services.configuration.type.query.assets import AssetsQueryType

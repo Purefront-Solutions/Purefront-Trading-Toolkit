@@ -3,7 +3,7 @@ from collections.abc import Generator
 
 import requests
 
-from lib.models.alpaca.historical_bar import AlpacaCryptoHistoricalBar
+from lib.models.alpaca.alpaca_crypto_historical_bar import AlpacaCryptoHistoricalBar
 from lib.services.configuration.collection import CollectionFrequency
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.system import SystemConfigurationService
