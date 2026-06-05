@@ -3,9 +3,11 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from lib.adapters.datasource.alpaca.alpaca_datasource_adapter import AlpacaDatasourceAdapter
+from lib.models.alpaca.asset import AlpacaAssetModel
 from lib.models.alpaca.historical_bar import AlpacaCryptoHistoricalBar
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.query import QueryConfiguration
+from lib.services.configuration.type.query.assets import AssetsQueryType
 from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
 
 
@@ -37,6 +39,12 @@ def test_get_model_returns_alpaca_historical_bar_for_historical_bars():
     assert adapter.get_model(query_config) is AlpacaCryptoHistoricalBar
 
 
+def test_get_model_returns_alpaca_asset_model_for_assets():
+    adapter = AlpacaDatasourceAdapter(_make_config())
+    query_config = _make_query_config(type="assets")
+    assert adapter.get_model(query_config) is AlpacaAssetModel
+
+
 def test_get_model_raises_for_unknown_query_type():
     adapter = AlpacaDatasourceAdapter(_make_config())
     query_config = _make_query_config(type="unknown-type")
@@ -62,6 +70,15 @@ def test_run_query_returns_results_from_service():
     with patch.object(adapter._service, 'fetch_historical_bars', return_value=iter([page])):
         result = list(adapter.run_query(query_config))
     assert result == [page]
+
+
+def test_run_query_delegates_to_assets_service_fetch_assets():
+    adapter = AlpacaDatasourceAdapter(_make_config())
+    query_config = QueryConfiguration(name="assets-query", type="assets")
+    with patch.object(adapter._assets_service, 'fetch_assets', return_value=iter([])) as mock_method:
+        adapter.run_query(query_config)
+    called_with = mock_method.call_args[0][0]
+    assert isinstance(called_with, AssetsQueryType)
 
 
 def test_run_query_raises_for_unknown_query_type():
