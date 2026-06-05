@@ -1,5 +1,5 @@
 from lib.models.historical_bars import HistoricalBars
 
 
-class AlpacaHistoricalBar(HistoricalBars):
-    __tablename__ = "alpaca_historical_bars"
+class AlpacaCryptoHistoricalBar(HistoricalBars):
+    __tablename__ = "crypto_historical_bars"

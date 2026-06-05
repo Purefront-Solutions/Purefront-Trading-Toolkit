@@ -3,7 +3,7 @@ from collections.abc import Generator
 
 import requests
 
-from lib.models.alpaca.historical_bar import AlpacaHistoricalBar
+from lib.models.alpaca.historical_bar import AlpacaCryptoHistoricalBar
 from lib.services.configuration.collection import CollectionFrequency
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.system import SystemConfigurationService
@@ -34,7 +34,7 @@ class AlpacaCryptoService:
     def __init__(self, datasource_config: DatasourceConfiguration) -> None:
         self._datasource_config = datasource_config
 
-    def convert_to_model(self, data: dict) -> AlpacaHistoricalBar:
+    def convert_to_model(self, data: dict) -> AlpacaCryptoHistoricalBar:
         bar_dict = {
             'symbol': data['symbol'],
             'time': data['t'],
@@ -47,7 +47,7 @@ class AlpacaCryptoService:
             'volume_weighted_avg_price': data['vw'],
             'source': self._datasource_config.type
         }
-        return AlpacaHistoricalBar.from_dict(bar_dict)
+        return AlpacaCryptoHistoricalBar.from_dict(bar_dict)
 
     def _fetch_with_retries(self, url: str, params: dict) -> dict:
         last_exc: Exception | None = None
@@ -73,7 +73,7 @@ class AlpacaCryptoService:
         assert last_exc is not None
         raise last_exc
 
-    def fetch_historical_bars(self, query_config: CryptoHistoricalBarsQueryType) -> Generator[list[AlpacaHistoricalBar], None, None]:
+    def fetch_historical_bars(self, query_config: CryptoHistoricalBarsQueryType) -> Generator[list[AlpacaCryptoHistoricalBar], None, None]:
         params: dict = {
             "timeframe": _TIMEFRAME_MAP[CollectionFrequency(query_config.frequency)],
             "start": query_config.start.isoformat(),
@@ -85,7 +85,7 @@ class AlpacaCryptoService:
 
         while True:
             response_data = self._fetch_with_retries(config.fetch_url, params)
-            bars: list[AlpacaHistoricalBar] = []
+            bars: list[AlpacaCryptoHistoricalBar] = []
             for symbol, bars_data in response_data['bars'].items():
                 bars.extend([self.convert_to_model({**bar_data, 'symbol': symbol}) for bar_data in bars_data])
             yield bars

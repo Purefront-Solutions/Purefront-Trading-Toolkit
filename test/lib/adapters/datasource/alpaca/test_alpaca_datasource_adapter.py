@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from lib.adapters.datasource.alpaca.alpaca_datasource_adapter import AlpacaDatasourceAdapter
-from lib.models.alpaca.historical_bar import AlpacaHistoricalBar
+from lib.models.alpaca.historical_bar import AlpacaCryptoHistoricalBar
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.query import QueryConfiguration
 from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
@@ -34,7 +34,7 @@ def _make_query_config(**overrides) -> QueryConfiguration:
 def test_get_model_returns_alpaca_historical_bar_for_historical_bars():
     adapter = AlpacaDatasourceAdapter(_make_config())
     query_config = _make_query_config(type="crypto-historical-bars")
-    assert adapter.get_model(query_config) is AlpacaHistoricalBar
+    assert adapter.get_model(query_config) is AlpacaCryptoHistoricalBar
 
 
 def test_get_model_raises_for_unknown_query_type():

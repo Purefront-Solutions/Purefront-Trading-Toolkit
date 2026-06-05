@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, call, patch
 import pytest
 import requests
 
-from lib.models.alpaca.historical_bar import AlpacaHistoricalBar
+from lib.models.alpaca.historical_bar import AlpacaCryptoHistoricalBar
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.datasources.alpaca.alpaca_crypto_service import AlpacaCryptoService
 
@@ -47,7 +47,7 @@ def _make_query_config_fields(**overrides) -> dict:
 def test_convert_to_model_returns_alpaca_historical_bar():
     service = AlpacaCryptoService(_make_config())
     result = service.convert_to_model(_make_bar_data())
-    assert isinstance(result, AlpacaHistoricalBar)
+    assert isinstance(result, AlpacaCryptoHistoricalBar)
 
 
 def test_convert_to_model_maps_symbol():
@@ -173,7 +173,7 @@ def test_fetch_historical_bars_yields_single_page():
         pages = list(service.fetch_historical_bars(query_config))
     assert len(pages) == 1
     assert len(pages[0]) == 1
-    assert isinstance(pages[0][0], AlpacaHistoricalBar)
+    assert isinstance(pages[0][0], AlpacaCryptoHistoricalBar)
 
 
 def test_fetch_historical_bars_follows_pagination():
