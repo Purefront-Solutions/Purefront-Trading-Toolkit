@@ -4,7 +4,7 @@ import pytest
 
 from lib.adapters.datasource.alpaca.alpaca_datasource_adapter import AlpacaDatasourceAdapter
 from lib.models.alpaca.asset import AlpacaAssetModel
-from lib.models.alpaca.historical_bar import AlpacaHistoricalBar
+from lib.models.alpaca.alpaca_crypto_historical_bar import AlpacaCryptoHistoricalBar
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.query import QueryConfiguration
 from lib.services.configuration.type.query.assets import AssetsQueryType
@@ -36,7 +36,7 @@ def _make_query_config(**overrides) -> QueryConfiguration:
 def test_get_model_returns_alpaca_historical_bar_for_historical_bars():
     adapter = AlpacaDatasourceAdapter(_make_config())
     query_config = _make_query_config(type="crypto-historical-bars")
-    assert adapter.get_model(query_config) is AlpacaHistoricalBar
+    assert adapter.get_model(query_config) is AlpacaCryptoHistoricalBar
 
 
 def test_get_model_returns_alpaca_asset_model_for_assets():

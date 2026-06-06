@@ -2,7 +2,7 @@ from collections.abc import Generator
 
 from lib.adapters.interfaces.datasource_adapter_interface import DatasourceAdapterInterface
 from lib.models.alpaca.asset import AlpacaAssetModel
-from lib.models.alpaca.historical_bar import AlpacaHistoricalBar
+from lib.models.alpaca.alpaca_crypto_historical_bar import AlpacaCryptoHistoricalBar
 from lib.models.base import BaseModel
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.query import QueryConfiguration
@@ -20,7 +20,7 @@ class AlpacaDatasourceAdapter(DatasourceAdapterInterface):
 
     def get_model(self, query_config: QueryConfiguration) -> type[BaseModel]:
         if query_config.type == 'crypto-historical-bars':
-            return AlpacaHistoricalBar
+            return AlpacaCryptoHistoricalBar
         if query_config.type == 'assets':
             return AlpacaAssetModel
         raise ValueError(f"Unsupported query type: {query_config.type}")

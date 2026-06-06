@@ -1,4 +1,4 @@
-from lib.models.alpaca.historical_bar import AlpacaHistoricalBar
+from lib.models.alpaca.alpaca_crypto_historical_bar import AlpacaCryptoHistoricalBar
 from lib.models.historical_bars import HistoricalBars
 
 
@@ -7,11 +7,11 @@ def test_historical_bars_is_abstract() -> None:
 
 
 def test_alpaca_historical_bar_tablename() -> None:
-    assert AlpacaHistoricalBar.__tablename__ == "alpaca_historical_bars"
+    assert AlpacaCryptoHistoricalBar.__tablename__ == "crypto_historical_bars"
 
 
 def test_alpaca_historical_bar_has_all_columns() -> None:
-    column_names = {c.key for c in AlpacaHistoricalBar.__table__.columns}
+    column_names = {c.key for c in AlpacaCryptoHistoricalBar.__table__.columns}
     expected = {
         "id", "created_at", "updated_at", "source",
         "symbol", "time", "open", "high", "low", "close",
@@ -32,6 +32,6 @@ def test_alpaca_historical_bar_from_dict() -> None:
         "trade_count": 4,
         "volume_weighted_avg_price": 125,
     }
-    bar = AlpacaHistoricalBar.from_dict(data)
+    bar = AlpacaCryptoHistoricalBar.from_dict(data)
     assert bar.symbol == "BTC/USD"
     assert bar.open == 100
