@@ -148,7 +148,6 @@ def build_parser():
     query_add.add_argument("--start", type=_iso8601, help="start datetime (ISO 8601)")
     query_add.add_argument("--end", type=_iso8601, help="end datetime (ISO 8601)")
     query_add.add_argument("--asset-class", dest="asset_class", default=None, help="asset class filter")
-    query_add.add_argument("--symbol", default=None, help="symbol filter")
     query_add.add_argument("--status", default=None, help="asset status filter")
     query_add.set_defaults(func=cmd_query_add)
 
@@ -159,7 +158,6 @@ def build_parser():
     query_update.add_argument("--start", default=None, type=_iso8601, help="start datetime (ISO 8601)")
     query_update.add_argument("--end", default=None, type=_iso8601, help="end datetime (ISO 8601)")
     query_update.add_argument("--asset-class", dest="asset_class", default=None, help="asset class filter")
-    query_update.add_argument("--symbol", default=None, help="symbol filter")
     query_update.add_argument("--status", default=None, help="asset status filter")
     query_update.set_defaults(func=cmd_query_update)
 

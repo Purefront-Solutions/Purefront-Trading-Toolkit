@@ -10,7 +10,6 @@ def test_name_is_assets():
 def test_all_fields_default_to_none():
     q = AssetsQueryType()
     assert q.asset_class is None
-    assert q.symbol is None
     assert q.status is None
 
 
@@ -24,16 +23,11 @@ def test_to_dict_includes_asset_class_when_set():
     assert q.to_dict() == {'asset_class': 'us_equity'}
 
 
-def test_to_dict_includes_symbol_when_set():
-    q = AssetsQueryType(symbol='AAPL')
-    assert q.to_dict() == {'symbol': 'AAPL'}
-
-
 def test_to_dict_includes_status_when_set():
     q = AssetsQueryType(status='active')
     assert q.to_dict() == {'status': 'active'}
 
 
 def test_to_dict_includes_all_set_fields():
-    q = AssetsQueryType(asset_class='crypto', symbol='BTC/USD', status='active')
-    assert q.to_dict() == {'asset_class': 'crypto', 'symbol': 'BTC/USD', 'status': 'active'}
+    q = AssetsQueryType(asset_class='crypto', status='active')
+    assert q.to_dict() == {'asset_class': 'crypto', 'status': 'active'}

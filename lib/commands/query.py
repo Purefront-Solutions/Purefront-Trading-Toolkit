@@ -25,8 +25,6 @@ def cmd_query_add(args: Namespace) -> None:
         kwargs['end'] = args.end
     if getattr(args, 'asset_class', None) is not None:
         kwargs['asset_class'] = args.asset_class
-    if getattr(args, 'symbol', None) is not None:
-        kwargs['symbol'] = args.symbol
     if getattr(args, 'status', None) is not None:
         kwargs['status'] = args.status
 
@@ -66,8 +64,6 @@ def cmd_query_update(args: Namespace) -> None:
         raw_updates['end'] = args.end
     if getattr(args, 'asset_class', None) is not None:
         raw_updates['asset_class'] = args.asset_class
-    if getattr(args, 'symbol', None) is not None:
-        raw_updates['symbol'] = args.symbol
     if getattr(args, 'status', None) is not None:
         raw_updates['status'] = args.status
 
