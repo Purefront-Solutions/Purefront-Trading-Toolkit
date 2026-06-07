@@ -33,7 +33,7 @@ def _make_asset_data(**overrides) -> dict:
         tradable=True,
         marginable=True,
         shortable=True,
-        easy_to_borrow=True,
+        borrow_status="easy_to_borrow",
         fractionable=True,
         margin_requirement_long="100%",
         margin_requirement_short="150%",
@@ -73,6 +73,26 @@ def test_convert_to_model_maps_boolean_fields():
     result = service.convert_to_model(_make_asset_data(tradable=False, marginable=False))
     assert result.tradable is False
     assert result.marginable is False
+
+
+def test_convert_to_model_easy_to_borrow_true_when_borrow_status_is_easy_to_borrow():
+    service = AlpacaAssetsService(_make_config())
+    result = service.convert_to_model(_make_asset_data(borrow_status="easy_to_borrow"))
+    assert result.easy_to_borrow is True
+
+
+def test_convert_to_model_easy_to_borrow_false_when_borrow_status_is_not_easy_to_borrow():
+    service = AlpacaAssetsService(_make_config())
+    result = service.convert_to_model(_make_asset_data(borrow_status="hard_to_borrow"))
+    assert result.easy_to_borrow is False
+
+
+def test_convert_to_model_easy_to_borrow_false_when_borrow_status_absent():
+    service = AlpacaAssetsService(_make_config())
+    data = _make_asset_data()
+    data.pop("borrow_status", None)
+    result = service.convert_to_model(data)
+    assert result.easy_to_borrow is False
 
 
 def test_convert_to_model_maps_optional_cusip():
