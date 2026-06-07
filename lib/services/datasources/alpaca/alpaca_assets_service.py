@@ -30,6 +30,7 @@ class AlpacaAssetsService:
             'asset_class': data['class'],
             'symbol': data['symbol'],
             'status': data['status'],
+            'cusip': data.get('cusip'),
             'exchange': data.get('exchange'),
             'name': data.get('name'),
             'tradable': data['tradable'],

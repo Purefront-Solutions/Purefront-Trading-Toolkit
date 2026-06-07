@@ -25,6 +25,7 @@ def _make_asset_data(**overrides) -> dict:
     defaults = dict(
         id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
         **{"class": "us_equity"},
+        cusip="987654321",
         exchange="NYSE",
         symbol="AAPL",
         name="Apple Inc.",
@@ -100,11 +101,19 @@ def test_convert_to_model_easy_to_borrow_false_when_borrow_status_absent():
     assert result.easy_to_borrow is False
 
 
+def test_convert_to_model_maps_optional_cusip():
+    service = AlpacaAssetsService(_make_config())
+    result = service.convert_to_model(_make_asset_data(cusip="123456789"))
+    assert result.cusip == "123456789"
+
+
 def test_convert_to_model_sets_none_for_missing_optional_fields():
     service = AlpacaAssetsService(_make_config())
     data = _make_asset_data()
+    data.pop("cusip", None)
     data.pop("exchange", None)
     result = service.convert_to_model(data)
+    assert result.cusip is None
     assert result.exchange is None
 
 

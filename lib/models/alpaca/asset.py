@@ -10,6 +10,7 @@ class AlpacaAssetModel(AssetModel):
     __tablename__ = "alpaca_assets"
 
     alpaca_id: Mapped[str] = mapped_column(String)
+    cusip: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     exchange: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     name: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     tradable: Mapped[bool] = mapped_column(Boolean)
