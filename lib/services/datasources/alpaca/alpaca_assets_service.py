@@ -35,7 +35,7 @@ class AlpacaAssetsService:
             'tradable': data['tradable'],
             'marginable': data['marginable'],
             'shortable': data['shortable'],
-            'easy_to_borrow': data['easy_to_borrow'],
+            'easy_to_borrow': data.get('borrow_status') == 'easy_to_borrow',
             'fractionable': data['fractionable'],
             'margin_requirement_long': data.get('margin_requirement_long'),
             'margin_requirement_short': data.get('margin_requirement_short'),
