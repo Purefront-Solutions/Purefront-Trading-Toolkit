@@ -48,8 +48,6 @@ class AlpacaAssetsService:
         params: dict = {}
         if query_config.asset_class is not None:
             params['asset_class'] = query_config.asset_class
-        if query_config.symbol is not None:
-            params['symbol'] = query_config.symbol
         if query_config.status is not None:
             params['status'] = query_config.status
 
