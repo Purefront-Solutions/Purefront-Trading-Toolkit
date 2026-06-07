@@ -50,6 +50,12 @@ def test_convert_to_model_returns_alpaca_asset_model():
     assert isinstance(result, AlpacaAssetModel)
 
 
+def test_convert_to_model_maps_id_to_alpaca_id():
+    service = AlpacaAssetsService(_make_config())
+    result = service.convert_to_model(_make_asset_data(id="abc-123"))
+    assert result.alpaca_id == "abc-123"
+
+
 def test_convert_to_model_maps_class_to_asset_class():
     service = AlpacaAssetsService(_make_config())
     result = service.convert_to_model(_make_asset_data(**{"class": "crypto"}))

@@ -26,6 +26,7 @@ class AlpacaAssetsService:
 
     def convert_to_model(self, data: dict) -> AlpacaAssetModel:
         asset_dict = {
+            'alpaca_id': data['id'],
             'asset_class': data['class'],
             'symbol': data['symbol'],
             'status': data['status'],
