@@ -5,7 +5,7 @@ import pytest
 import requests
 import yaml
 
-from lib.commands.datasource import cmd_datasource, cmd_datasource_add, cmd_datasource_list, cmd_datasource_remove, cmd_datasource_test, cmd_datasource_update
+from cli.commands.datasource import cmd_datasource, cmd_datasource_add, cmd_datasource_list, cmd_datasource_remove, cmd_datasource_test, cmd_datasource_update
 
 
 @pytest.fixture(autouse=True)

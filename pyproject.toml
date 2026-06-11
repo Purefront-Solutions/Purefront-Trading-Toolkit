@@ -9,11 +9,8 @@ requires-python = ">=3.12"
 dependencies = ["pyyaml", "sqlalchemy", "psycopg2-binary", "requests", "cryptography", "python-dotenv"]
 
 [project.scripts]
-hdc = "cli:main"
-
-[tool.setuptools]
-py-modules = ["cli"]
+ttk = "cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["lib*"]
+include = ["lib*", "cli*"]

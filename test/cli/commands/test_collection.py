@@ -4,9 +4,9 @@ from unittest.mock import MagicMock, patch
 import pytest
 import yaml
 
-from lib.commands.collection import cmd_collection, cmd_collection_add, cmd_collection_init, cmd_collection_list, cmd_collection_remove, cmd_collection_run, cmd_collection_update
-from lib.commands.database import cmd_database_add
-from lib.commands.datasource import cmd_datasource_add
+from cli.commands.collection import cmd_collection, cmd_collection_add, cmd_collection_init, cmd_collection_list, cmd_collection_remove, cmd_collection_run, cmd_collection_update
+from cli.commands.database import cmd_database_add
+from cli.commands.datasource import cmd_datasource_add
 from lib.services.configuration.query import QueryConfiguration, QueryConfigurationService
 
 
