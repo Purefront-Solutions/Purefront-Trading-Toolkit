@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import pytest
 import yaml
 
-from lib.commands.query import cmd_query, cmd_query_add, cmd_query_list, cmd_query_remove, cmd_query_update
+from cli.commands.query import cmd_query, cmd_query_add, cmd_query_list, cmd_query_remove, cmd_query_update
 
 _SYSTEM_CONFIG = {"query_types": [{"name": "crypto-historical-bars"}]}
 

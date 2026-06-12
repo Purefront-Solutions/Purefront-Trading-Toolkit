@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 import yaml
 
-from lib.commands.database import cmd_database, cmd_database_add, cmd_database_list, cmd_database_remove, cmd_database_test, cmd_database_update
+from cli.commands.database import cmd_database, cmd_database_add, cmd_database_list, cmd_database_remove, cmd_database_test, cmd_database_update
 
 
 @pytest.fixture(autouse=True)

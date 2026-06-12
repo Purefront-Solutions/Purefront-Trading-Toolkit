@@ -1,7 +1,6 @@
 from argparse import Namespace
 
 from lib.services.configuration.query import QueryConfiguration, QueryConfigurationService, QueryNotFoundError
-from lib.services.configuration.system import SystemConfigurationService
 from lib.services.configuration.type.query.factory import get_query_type_class
 
 _service = QueryConfigurationService()

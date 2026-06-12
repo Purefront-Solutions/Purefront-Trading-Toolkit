@@ -19,20 +19,20 @@ def test_build_parser_version_flag():
 
 
 def test_main_version_flag(capsys):
-    with patch("sys.argv", ["hdc", "--version"]):
+    with patch("sys.argv", ["ttk", "--version"]):
         cli.main()
     assert capsys.readouterr().out.strip() == "historical-data-collector 0.1.0"
 
 
 def test_main_collection_run_not_found(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
-    with patch("sys.argv", ["hdc", "collection", "run", "--name", "missing"]):
+    with patch("sys.argv", ["ttk", "collection", "run", "--name", "missing"]):
         cli.main()
     assert "not found" in capsys.readouterr().out
 
 
 def test_main_no_args_exits(capsys):
-    with patch("sys.argv", ["hdc"]):
+    with patch("sys.argv", ["ttk"]):
         with pytest.raises(SystemExit) as exc:
             cli.main()
     assert exc.value.code == 1

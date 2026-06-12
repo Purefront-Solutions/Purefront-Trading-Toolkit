@@ -1,4 +1,4 @@
-from lib.commands.version import cmd_version
+from cli.commands.version import cmd_version
 
 
 def test_cmd_version_prints_version(capsys):

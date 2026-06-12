@@ -22,7 +22,7 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-This installs the `hdc` command into the virtual environment.
+This installs the `ttk` command into the virtual environment.
 
 ### Install test dependencies
 
@@ -55,14 +55,14 @@ Alternatively, store it in a `.env` file at the project root (this file is gitig
 HDC_SECRET=your-strong-secret-here
 ```
 
-`hdc` loads `.env` automatically on startup.
+`ttk` loads `.env` automatically on startup.
 
 > **Important:** Use the same `HDC_SECRET` value every time. If it changes, previously stored credentials will not be decryptable and you will need to remove and re-add your databases and datasources.
 
 ## Usage
 
 ```bash
-hdc <command>
+ttk <command>
 ```
 
 ### Commands
@@ -70,63 +70,63 @@ hdc <command>
 **datasource** — manage datasources
 
 ```bash
-hdc datasource add --name <name> --type alpaca --apiKey <key> --apiSecret <secret>
+ttk datasource add --name <name> --type alpaca --apiKey <key> --apiSecret <secret>
 
-hdc datasource update --name <name> [--type alpaca] [--apiKey <key>] [--apiSecret <secret>]
+ttk datasource update --name <name> [--type alpaca] [--apiKey <key>] [--apiSecret <secret>]
 
-hdc datasource list
+ttk datasource list
 
-hdc datasource test --name <name>
+ttk datasource test --name <name>
 
-hdc datasource remove --name <name>
+ttk datasource remove --name <name>
 ```
 
 **database** — manage databases
 
 ```bash
-hdc database add --name <name> --type <type> --username <user> \
+ttk database add --name <name> --type <type> --username <user> \
     --password <pass> --host <host> --port <port> --dbname <dbname>
 
-hdc database update --name <name> [--type <type>] [--username <user>] \
+ttk database update --name <name> [--type <type>] [--username <user>] \
     [--password <pass>] [--host <host>] [--port <port>] [--dbname <dbname>]
 
-hdc database list
+ttk database list
 
-hdc database remove --name <name>
+ttk database remove --name <name>
 
-hdc database test --name <name>
+ttk database test --name <name>
 ```
 
 **collection** — manage collections
 
 ```bash
-hdc collection add --name <name> --database <db> --datasource <ds> --query <query> \
+ttk collection add --name <name> --database <db> --datasource <ds> --query <query> \
     --type historical-bars --start <ISO8601> [--frequency 1m|1d] [--end <ISO8601>] \
     [--symbols <sym1,sym2,...>]
 
-hdc collection update --name <name> [--database <db>] [--datasource <ds>] \
+ttk collection update --name <name> [--database <db>] [--datasource <ds>] \
     [--query <query>] [--type historical-bars] [--start <ISO8601>] \
     [--frequency 1m|1d] [--end <ISO8601>] [--symbols <sym1,sym2,...>]
 
-hdc collection list
+ttk collection list
 
-hdc collection remove --name <name>
+ttk collection remove --name <name>
 
-hdc collection init --name <name>
+ttk collection init --name <name>
 
-hdc collection run --name <name>
+ttk collection run --name <name>
 ```
 
 **query** — manage queries
 
 ```bash
-hdc query add --name <name> --type <type> --symbols <sym1,sym2,...> --frequency <1d|1m> [--start <ISO8601>] [--end <ISO8601>]
+ttk query add --name <name> --type <type> --symbols <sym1,sym2,...> --frequency <1d|1m> [--start <ISO8601>] [--end <ISO8601>]
 
-hdc query update --name <name> [--symbols <sym1,sym2,...>] [--frequency <1d|1m>] [--start <ISO8601>] [--end <ISO8601>]
+ttk query update --name <name> [--symbols <sym1,sym2,...>] [--frequency <1d|1m>] [--start <ISO8601>] [--end <ISO8601>]
 
-hdc query list
+ttk query list
 
-hdc query remove --name <name>
+ttk query remove --name <name>
 ```
 
 Available query types (configured in `.config/system.config.yaml`):
@@ -138,12 +138,12 @@ Available query types (configured in `.config/system.config.yaml`):
 **version** — show the current version
 
 ```bash
-hdc --version
+ttk --version
 ```
 
 ## Help
 
 ```bash
-hdc --help
-hdc <command> --help
+ttk --help
+ttk <command> --help
 ```
