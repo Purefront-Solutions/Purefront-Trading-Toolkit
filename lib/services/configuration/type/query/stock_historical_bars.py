@@ -5,5 +5,5 @@ from lib.services.configuration.type.query.historical_bars import HistoricalBars
 
 
 @dataclass
-class CryptoHistoricalBarsQueryType(HistoricalBarsQueryType):
-    name: ClassVar[str] = 'crypto-historical-bars'
+class StockHistoricalBarsQueryType(HistoricalBarsQueryType):
+    name: ClassVar[str] = 'stock-historical-bars'
