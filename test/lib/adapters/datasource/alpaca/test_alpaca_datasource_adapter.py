@@ -5,10 +5,12 @@ import pytest
 from lib.adapters.datasource.alpaca.alpaca_datasource_adapter import AlpacaDatasourceAdapter
 from lib.models.alpaca.asset import AlpacaAssetModel
 from lib.models.alpaca.alpaca_crypto_historical_bar import AlpacaCryptoHistoricalBar
+from lib.models.alpaca.alpaca_stock_historical_bar import AlpacaStockHistoricalBar
 from lib.services.configuration.datasource import DatasourceConfiguration
 from lib.services.configuration.query import QueryConfiguration
 from lib.services.configuration.type.query.assets import AssetsQueryType
 from lib.services.configuration.type.query.crypto_historical_bars import CryptoHistoricalBarsQueryType
+from lib.services.configuration.type.query.stock_historical_bars import StockHistoricalBarsQueryType
 
 
 def _make_config(**overrides) -> DatasourceConfiguration:
@@ -45,6 +47,12 @@ def test_get_model_returns_alpaca_asset_model_for_assets():
     assert adapter.get_model(query_config) is AlpacaAssetModel
 
 
+def test_get_model_returns_alpaca_stock_historical_bar_for_stock_historical_bars():
+    adapter = AlpacaDatasourceAdapter(_make_config())
+    query_config = _make_query_config(type="stock-historical-bars", symbols=["AAPL"])
+    assert adapter.get_model(query_config) is AlpacaStockHistoricalBar
+
+
 def test_get_model_raises_for_unknown_query_type():
     adapter = AlpacaDatasourceAdapter(_make_config())
     query_config = _make_query_config(type="unknown-type")
@@ -79,6 +87,24 @@ def test_run_query_delegates_to_assets_service_fetch_assets():
         adapter.run_query(query_config)
     called_with = mock_method.call_args[0][0]
     assert isinstance(called_with, AssetsQueryType)
+
+
+def test_run_query_delegates_to_stock_service_fetch_historical_bars():
+    adapter = AlpacaDatasourceAdapter(_make_config())
+    query_config = _make_query_config(type="stock-historical-bars", symbols=["AAPL"])
+    with patch.object(adapter._stock_service, 'fetch_historical_bars', return_value=iter([])) as mock_method:
+        adapter.run_query(query_config)
+    called_with = mock_method.call_args[0][0]
+    assert isinstance(called_with, StockHistoricalBarsQueryType)
+
+
+def test_run_query_returns_results_from_stock_service():
+    adapter = AlpacaDatasourceAdapter(_make_config())
+    query_config = _make_query_config(type="stock-historical-bars", symbols=["AAPL"])
+    page = [MagicMock(), MagicMock()]
+    with patch.object(adapter._stock_service, 'fetch_historical_bars', return_value=iter([page])):
+        result = list(adapter.run_query(query_config))
+    assert result == [page]
 
 
 def test_run_query_raises_for_unknown_query_type():
