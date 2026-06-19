@@ -65,7 +65,7 @@ def test_get_model_raises_for_unknown_query_type():
 def test_run_query_delegates_to_service_fetch_historical_bars():
     adapter = AlpacaDatasourceAdapter(_make_config())
     query_config = _make_query_config(type="crypto-historical-bars")
-    with patch.object(adapter._service, 'fetch_historical_bars', return_value=iter([])) as mock_method:
+    with patch.object(adapter._crypto_service, 'fetch_historical_bars', return_value=iter([])) as mock_method:
         adapter.run_query(query_config)
     called_with = mock_method.call_args[0][0]
     assert isinstance(called_with, CryptoHistoricalBarsQueryType)
@@ -75,7 +75,7 @@ def test_run_query_returns_results_from_service():
     adapter = AlpacaDatasourceAdapter(_make_config())
     query_config = _make_query_config(type="crypto-historical-bars")
     page = [MagicMock(), MagicMock()]
-    with patch.object(adapter._service, 'fetch_historical_bars', return_value=iter([page])):
+    with patch.object(adapter._crypto_service, 'fetch_historical_bars', return_value=iter([page])):
         result = list(adapter.run_query(query_config))
     assert result == [page]
 
@@ -118,7 +118,7 @@ def test_run_query_raises_for_unknown_query_type():
 
 def test_test_connection_delegates_to_service():
     adapter = AlpacaDatasourceAdapter(_make_config())
-    with patch.object(adapter._service, 'test_connection', return_value=True) as mock_method:
+    with patch.object(adapter._crypto_service, 'test_connection', return_value=True) as mock_method:
         result = adapter.test_connection()
     mock_method.assert_called_once()
     assert result is True
@@ -126,6 +126,6 @@ def test_test_connection_delegates_to_service():
 
 def test_test_connection_propagates_service_error():
     adapter = AlpacaDatasourceAdapter(_make_config())
-    with patch.object(adapter._service, 'test_connection', side_effect=Exception("connection failed")):
+    with patch.object(adapter._crypto_service, 'test_connection', side_effect=Exception("connection failed")):
         with pytest.raises(Exception, match="connection failed"):
             adapter.test_connection()

@@ -97,7 +97,7 @@ def test_fetch_with_retries_returns_json_on_success():
     service = AlpacaCryptoService(_make_config())
     mock_response = MagicMock()
     mock_response.json.return_value = {"bars": {}}
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get", return_value=mock_response):
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get", return_value=mock_response):
         result = service._fetch_with_retries("https://example.com", {"symbols": "BTC/USD"})
     assert result == {"bars": {}}
 
@@ -107,7 +107,7 @@ def test_fetch_with_retries_does_not_retry_on_4xx():
     mock_response = MagicMock()
     http_error = requests.exceptions.HTTPError(response=MagicMock(status_code=401))
     mock_response.raise_for_status.side_effect = http_error
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get", return_value=mock_response) as mock_get:
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get", return_value=mock_response) as mock_get:
         with pytest.raises(requests.exceptions.HTTPError):
             service._fetch_with_retries("https://example.com", {})
     assert mock_get.call_count == 1
@@ -118,8 +118,8 @@ def test_fetch_with_retries_retries_on_5xx_then_raises():
     mock_response = MagicMock()
     http_error = requests.exceptions.HTTPError(response=MagicMock(status_code=503))
     mock_response.raise_for_status.side_effect = http_error
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get", return_value=mock_response) as mock_get:
-        with patch("lib.services.datasources.alpaca.alpaca_crypto_service.time.sleep"):
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get", return_value=mock_response) as mock_get:
+        with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.time.sleep"):
             with pytest.raises(requests.exceptions.HTTPError):
                 service._fetch_with_retries("https://example.com", {})
     assert mock_get.call_count == 4  # 1 initial + 3 retries
@@ -128,10 +128,10 @@ def test_fetch_with_retries_retries_on_5xx_then_raises():
 def test_fetch_with_retries_retries_on_connection_error_then_raises():
     service = AlpacaCryptoService(_make_config())
     with patch(
-        "lib.services.datasources.alpaca.alpaca_crypto_service.requests.get",
+        "lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get",
         side_effect=requests.exceptions.ConnectionError("unreachable"),
     ) as mock_get:
-        with patch("lib.services.datasources.alpaca.alpaca_crypto_service.time.sleep"):
+        with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.time.sleep"):
             with pytest.raises(requests.exceptions.ConnectionError):
                 service._fetch_with_retries("https://example.com", {})
     assert mock_get.call_count == 4  # 1 initial + 3 retries
@@ -141,7 +141,7 @@ def test_fetch_with_retries_passes_url_to_request():
     service = AlpacaCryptoService(_make_config())
     mock_response = MagicMock()
     mock_response.json.return_value = {}
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get", return_value=mock_response) as mock_get:
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get", return_value=mock_response) as mock_get:
         service._fetch_with_retries("https://custom.url/endpoint", {})
     assert mock_get.call_args[0][0] == "https://custom.url/endpoint"
 
@@ -150,7 +150,7 @@ def test_fetch_with_retries_uses_api_key_and_secret_as_auth():
     service = AlpacaCryptoService(_make_config(api_key="mykey", api_secret="mysecret"))
     mock_response = MagicMock()
     mock_response.json.return_value = {}
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get", return_value=mock_response) as mock_get:
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get", return_value=mock_response) as mock_get:
         service._fetch_with_retries("https://example.com", {})
     assert mock_get.call_args[1]["auth"] == ("mykey", "mysecret")
 
@@ -234,7 +234,7 @@ def test_fetch_historical_bars_omits_end_when_not_set():
 def test_test_connection_returns_true_on_success():
     service = AlpacaCryptoService(_make_config())
     mock_response = MagicMock()
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get", return_value=mock_response):
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get", return_value=mock_response):
         result = service.test_connection()
     assert result is True
 
@@ -242,7 +242,7 @@ def test_test_connection_returns_true_on_success():
 def test_test_connection_calls_raise_for_status():
     service = AlpacaCryptoService(_make_config())
     mock_response = MagicMock()
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get", return_value=mock_response):
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get", return_value=mock_response):
         service.test_connection()
     mock_response.raise_for_status.assert_called_once()
 
@@ -252,7 +252,7 @@ def test_test_connection_uses_correct_url():
     mock_sys_config = MagicMock()
     mock_sys_config.test_url = "https://data.alpaca.markets/v1beta3/crypto/us/bars"
     with patch("lib.services.datasources.alpaca.alpaca_crypto_service.config", mock_sys_config):
-        with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get") as mock_get:
+        with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get") as mock_get:
             mock_get.return_value = MagicMock()
             service.test_connection()
     url = mock_get.call_args[0][0]
@@ -261,7 +261,7 @@ def test_test_connection_uses_correct_url():
 
 def test_test_connection_uses_api_key_and_secret_as_auth():
     service = AlpacaCryptoService(_make_config(api_key="mykey", api_secret="mysecret"))
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get") as mock_get:
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get") as mock_get:
         mock_get.return_value = MagicMock()
         service.test_connection()
     kwargs = mock_get.call_args[1]
@@ -270,7 +270,7 @@ def test_test_connection_uses_api_key_and_secret_as_auth():
 
 def test_test_connection_sends_correct_headers():
     service = AlpacaCryptoService(_make_config())
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get") as mock_get:
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get") as mock_get:
         mock_get.return_value = MagicMock()
         service.test_connection()
     kwargs = mock_get.call_args[1]
@@ -279,7 +279,7 @@ def test_test_connection_sends_correct_headers():
 
 def test_test_connection_sends_correct_params():
     service = AlpacaCryptoService(_make_config())
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get") as mock_get:
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get") as mock_get:
         mock_get.return_value = MagicMock()
         service.test_connection()
     kwargs = mock_get.call_args[1]
@@ -290,6 +290,6 @@ def test_test_connection_propagates_http_error():
     service = AlpacaCryptoService(_make_config())
     mock_response = MagicMock()
     mock_response.raise_for_status.side_effect = Exception("401 Unauthorized")
-    with patch("lib.services.datasources.alpaca.alpaca_crypto_service.requests.get", return_value=mock_response):
+    with patch("lib.services.datasources.alpaca.alpaca_historical_bars_service.requests.get", return_value=mock_response):
         with pytest.raises(Exception, match="401 Unauthorized"):
             service.test_connection()
