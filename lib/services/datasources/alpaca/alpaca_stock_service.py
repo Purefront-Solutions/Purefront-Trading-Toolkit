@@ -1,4 +1,4 @@
-from lib.models.alpaca.alpaca_crypto_historical_bar import AlpacaCryptoHistoricalBar
+from lib.models.alpaca.alpaca_stock_historical_bar import AlpacaStockHistoricalBar
 from lib.services.configuration.system import SystemConfigurationService
 from lib.services.datasources.alpaca.alpaca_historical_bars_service import AlpacaHistoricalBarsService
 
@@ -8,23 +8,23 @@ class _LazySystemConfig:
 
     def __getattr__(self, name: str) -> object:
         if type(self)._instance is None:
-            type(self)._instance = SystemConfigurationService('datasource_services').get_one('alpaca_crypto')
+            type(self)._instance = SystemConfigurationService('datasource_services').get_one('alpaca_stock')
         return getattr(type(self)._instance, name)
 
 
 config: _LazySystemConfig = _LazySystemConfig()
 
 
-class AlpacaCryptoService(AlpacaHistoricalBarsService):
+class AlpacaStockService(AlpacaHistoricalBarsService):
     @property
     def _system_config(self) -> object:
         return config
 
     @property
     def _test_symbol(self) -> str:
-        return 'BTC/USD'
+        return 'AAPL'
 
-    def convert_to_model(self, data: dict) -> AlpacaCryptoHistoricalBar:
+    def convert_to_model(self, data: dict) -> AlpacaStockHistoricalBar:
         bar_dict = {
             'symbol': data['symbol'],
             'time': data['t'],
@@ -37,4 +37,4 @@ class AlpacaCryptoService(AlpacaHistoricalBarsService):
             'volume_weighted_avg_price': data['vw'],
             'source': self._datasource_config.type
         }
-        return AlpacaCryptoHistoricalBar.from_dict(bar_dict)
+        return AlpacaStockHistoricalBar.from_dict(bar_dict)

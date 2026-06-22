@@ -16,3 +16,11 @@ datasource_services:
 - name: alpaca_assets
   fetch_url: http://localhost:8000/alpaca/v2/assets
   test_url: http://localhost:8000/alpaca/v2/assets
+- name: alpaca_stock_production
+  fetch_url: https://data.alpaca.markets/v2/stocks/bars
+  test_url: https://data.alpaca.markets/v2/stocks/bars
+  page_limit: 1000
+- name: alpaca_stock
+  fetch_url: https://data.alpaca.markets/v2/stocks/bars
+  test_url: https://data.alpaca.markets/v2/stocks/bars
+  page_limit: 1000
