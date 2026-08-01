@@ -35,7 +35,6 @@ class CollectionFrequency(str, Enum):
 class CollectionConfiguration(ConfigurationTypeInterface):
     name: str
     database: str
-    type: str
     start: datetime
     datasource: str | None = None
     query: str | None = None

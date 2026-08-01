@@ -101,11 +101,11 @@ ttk database test --name <name>
 
 ```bash
 ttk collection add --name <name> --database <db> --datasource <ds> --query <query> \
-    --type historical-bars --start <ISO8601> [--frequency 1m|1d] [--end <ISO8601>] \
+    --start <ISO8601> [--frequency 1m|1d] [--end <ISO8601>] \
     [--symbols <sym1,sym2,...>]
 
 ttk collection update --name <name> [--database <db>] [--datasource <ds>] \
-    [--query <query>] [--type historical-bars] [--start <ISO8601>] \
+    [--query <query>] [--start <ISO8601>] \
     [--frequency 1m|1d] [--end <ISO8601>] [--symbols <sym1,sym2,...>]
 
 ttk collection list
