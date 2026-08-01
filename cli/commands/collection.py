@@ -14,7 +14,6 @@ def cmd_collection_add(args: Namespace) -> None:
             database=args.database,
             datasource=args.datasource,
             query=args.query,
-            type=args.type,
             start=args.start,
             frequency=args.frequency,
             end=args.end,
@@ -35,7 +34,6 @@ def cmd_collection_list(args: Namespace) -> None:
     for c in collections:
         parts = [
             f"name={c.name}",
-            f"type={c.type}",
             f"database={c.database}",
             f"datasource={c.datasource}",
             f"start={c.start.isoformat()}",
@@ -59,8 +57,6 @@ def cmd_collection_update(args: Namespace) -> None:
         updates["datasource"] = args.datasource
     if args.query is not None:
         updates["query"] = args.query
-    if args.type is not None:
-        updates["type"] = args.type
     if args.start is not None:
         updates["start"] = args.start
     if args.end is not None:

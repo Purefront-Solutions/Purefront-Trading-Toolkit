@@ -50,7 +50,6 @@ def _make_collection_args(**overrides) -> argparse.Namespace:
         database="local",
         datasource="tesdc",
         query=None,
-        type="crypto-historical-bars",
         frequency=None,
         start="2024-01-01T00:00:00",
         end=None,
@@ -71,7 +70,6 @@ def test_cmd_collection_add_creates_config(tmp_path, monkeypatch):
     c = config["collections"][0]
     assert c["name"] == "bars"
     assert c["database"] == "local"
-    assert c["type"] == "crypto-historical-bars"
     assert c["start"] == "2024-01-01T00:00:00+00:00"
 
 
@@ -172,7 +170,7 @@ def test_cmd_collection_list_shows_entries(tmp_path, monkeypatch, capsys):
 def test_cmd_collection_list_shows_all_required_fields(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
     cmd_collection_add(_make_collection_args(
-        name="bars", database="local", datasource="tesdc", type="crypto-historical-bars", start="2024-01-01T00:00:00"
+        name="bars", database="local", datasource="tesdc", start="2024-01-01T00:00:00"
     ))
     capsys.readouterr()
 
@@ -181,7 +179,6 @@ def test_cmd_collection_list_shows_all_required_fields(tmp_path, monkeypatch, ca
     assert "name=bars" in out
     assert "database=local" in out
     assert "datasource=tesdc" in out
-    assert "type=crypto-historical-bars" in out
     assert "start=2024-01-01T00:00:00" in out
 
 
@@ -343,7 +340,7 @@ def test_cmd_collection_update_changes_field(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
     cmd_collection_add(_make_collection_args(name="bars", database="old-db"))
     capsys.readouterr()
-    cmd_collection_update(argparse.Namespace(name="bars", database="new-db", datasource=None, query=None, type=None, start=None, end=None, frequency=None, symbols=None))
+    cmd_collection_update(argparse.Namespace(name="bars", database="new-db", datasource=None, query=None, start=None, end=None, frequency=None, symbols=None))
     assert "updated" in capsys.readouterr().out
 
     config = yaml.safe_load((tmp_path / ".config" / "user.config.yaml").read_text())
@@ -352,13 +349,13 @@ def test_cmd_collection_update_changes_field(tmp_path, monkeypatch, capsys):
 
 def test_cmd_collection_update_not_found(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
-    cmd_collection_update(argparse.Namespace(name="ghost", database="x", datasource=None, query=None, type=None, start=None, end=None, frequency=None, symbols=None))
+    cmd_collection_update(argparse.Namespace(name="ghost", database="x", datasource=None, query=None, start=None, end=None, frequency=None, symbols=None))
     assert "not found" in capsys.readouterr().out
 
 
 def test_cmd_collection_update_no_fields(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
-    cmd_collection_update(argparse.Namespace(name="bars", database=None, datasource=None, query=None, type=None, start=None, end=None, frequency=None, symbols=None))
+    cmd_collection_update(argparse.Namespace(name="bars", database=None, datasource=None, query=None, start=None, end=None, frequency=None, symbols=None))
     assert "No fields" in capsys.readouterr().out
 
 
@@ -417,7 +414,7 @@ def test_cmd_collection_update_with_valid_query(tmp_path, monkeypatch, capsys):
     _seed_query("q2")
     cmd_collection_add(_make_collection_args(query="q1"))
     capsys.readouterr()
-    cmd_collection_update(argparse.Namespace(name="bars", database=None, datasource=None, query="q2", type=None, start=None, end=None, frequency=None, symbols=None))
+    cmd_collection_update(argparse.Namespace(name="bars", database=None, datasource=None, query="q2", start=None, end=None, frequency=None, symbols=None))
     assert "updated" in capsys.readouterr().out
 
     config = yaml.safe_load((tmp_path / ".config" / "user.config.yaml").read_text())
@@ -428,7 +425,7 @@ def test_cmd_collection_update_invalid_query_prints_error(tmp_path, monkeypatch,
     monkeypatch.chdir(tmp_path)
     cmd_collection_add(_make_collection_args(name="bars"))
     capsys.readouterr()
-    cmd_collection_update(argparse.Namespace(name="bars", database=None, datasource=None, query="missing-query", type=None, start=None, end=None, frequency=None, symbols=None))
+    cmd_collection_update(argparse.Namespace(name="bars", database=None, datasource=None, query="missing-query", start=None, end=None, frequency=None, symbols=None))
     out = capsys.readouterr().out
     assert "not found" in out
     assert "missing-query" in out

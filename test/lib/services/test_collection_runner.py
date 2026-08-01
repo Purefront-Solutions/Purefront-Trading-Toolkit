@@ -11,7 +11,6 @@ def _make_collection_config(**overrides) -> CollectionConfiguration:
         name="bars",
         database="local",
         datasource="alpaca",
-        type="crypto-historical-bars",
         start="2024-01-01T00:00:00",
     )
     defaults.update(overrides)
