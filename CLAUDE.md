@@ -57,3 +57,15 @@ Import functions, classes, and other objects directly rather than referencing th
 ## README maintenance
 
 Whenever the CLI interface changes (new subcommands, removed subcommands, changed flags or arguments), update `README.md` to reflect the new usage.
+
+## Workflow
+
+Unless otherwise instructed, always work from a GitHub issue.
+
+Perform all work in a git worktree and submit a PR when the work is ready for review.
+
+**Branch naming**:
+- Features: `feature/<issue-number>--<description-slug>`
+- Bug fixes: `bugfix/<issue-number>--<description-slug>`
+
+All PRs should target the `main` branch. Before submitting, ensure all tests are passing and all issue requirements have been fulfilled.
